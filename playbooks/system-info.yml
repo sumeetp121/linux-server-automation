@@ -12,9 +12,3 @@
     - name: Display primary IP address
       debug:
         var: ansible_default_ipv4.address
-
-    - name: Install Nginx
-      apt:
-        name: nginx
-        state: present
-        update_cache: true

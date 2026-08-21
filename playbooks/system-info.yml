@@ -7,3 +7,7 @@
     - name: Display hostname
       debug:
         var: ansible_hostname
+
+    - name: Display primary IP address
+      debug:
+        var: ansible_default_ipv4.address

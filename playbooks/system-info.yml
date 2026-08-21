@@ -1,6 +1,7 @@
 ---
-- name: Collect Linux system information
+- name: Linux server configuration
   hosts: all
+  become: true
   gather_facts: true
 
   tasks:
@@ -11,3 +12,9 @@
     - name: Display primary IP address
       debug:
         var: ansible_default_ipv4.address
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: true

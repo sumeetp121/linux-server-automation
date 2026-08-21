@@ -1,0 +1,15 @@
+---
+- name: Manage Linux packages
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - vim
+          - unzip
+        state: present
+        update_cache: true

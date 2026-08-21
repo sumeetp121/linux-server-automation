@@ -1,0 +1,9 @@
+---
+- name: Collect Linux system information
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Display hostname
+      debug:
+        var: ansible_hostname

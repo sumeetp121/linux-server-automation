@@ -1,0 +1,15 @@
+---
+- name: Manage Linux cron jobs
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Create application health check cron job
+      cron:
+        name: "Application Health Check"
+        minute: "*/5"
+        job: "/usr/bin/date >> /opt/app/health_check.log"
+        user: devopsuser
+        state: present
+        

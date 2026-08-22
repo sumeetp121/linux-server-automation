@@ -1,0 +1,16 @@
+---
+- name: Manage Linux service
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Ensure nginx service is running
+      service:
+        name: nginx
+        state: started
+
+    - name: Ensure nginx service is enabled
+      service:
+        name: nginx
+        enabled: true

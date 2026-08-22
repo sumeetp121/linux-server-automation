@@ -1,0 +1,24 @@
+---
+- name: Manage Linux filesystem information
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Display filesystem usage
+      command: df -h
+      register: filesystem_usage
+      changed_when: false
+
+    - name: Display filesystem usage
+      debug:
+        var: filesystem_usage.stdout_lines
+
+    - name: Display mounted filesystems
+      command: findmnt
+      register: mounted_filesystems
+      changed_when: false
+
+    - name: Display mounted filesystems
+      debug:
+        var: mounted_filesystems.stdout_lines

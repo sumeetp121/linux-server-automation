@@ -1,0 +1,45 @@
+---
+- name: Manage Linux storage information
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Display block devices
+      command: lsblk
+      register: block_devices
+      changed_when: false
+
+    - name: Display block device information
+      debug:
+        var: block_devices.stdout_lines
+
+    - name: Display physical volumes
+      command: pvs
+      register: physical_volumes
+      changed_when: false
+      failed_when: false
+
+    - name: Display volume groups
+      command: vgs
+      register: volume_groups
+      changed_when: false
+      failed_when: false
+
+    - name: Display logical volumes
+      command: lvs
+      register: logical_volumes
+      changed_when: false
+      failed_when: false
+
+    - name: Display physical volume information
+      debug:
+        var: physical_volumes.stdout_lines
+
+    - name: Display volume group information
+      debug:
+        var: volume_groups.stdout_lines
+
+    - name: Display logical volume information
+      debug:
+        var: logical_volumes.stdout_lines

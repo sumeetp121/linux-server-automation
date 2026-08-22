@@ -1,0 +1,21 @@
+---
+- name: Manage Linux users and groups
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Create devops group
+      group:
+        name: devops
+        state: present
+
+    - name: Create devopsuser user and add to devops group
+      user:
+        name: devopsuser
+        group: devops
+        groups: sudo
+        append: true
+        shell: /bin/bash
+        create_home: true
+        state: present

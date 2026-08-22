@@ -1,0 +1,22 @@
+---
+- name: Manage Linux file permission
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Set application directory ownership and permissions
+      file:
+        path: /opt/app
+        owner: devopsuser
+        group: devops
+        mode: '0750'
+        state: directory
+
+    - name: Set application configuration permission
+      file:
+        path: /opt/app/app.conf
+        owner: devopsuser
+        group: devops
+        mode: '0644'
+        state: file

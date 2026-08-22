@@ -1,0 +1,24 @@
+---
+- name: Manage Linux logs
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Check journald service
+      command: systemctl is-active systemd-journald
+      register: journald_status
+      changed_when: false
+
+    - name: Display journald status
+      debug:
+        msg: "systemd-journald is {{ journald_status.stdout }}"
+
+    - name: Get recent system logs
+      command: journalctl -n 20 --no-pager
+      register: recent_logs
+      changed_when: false
+
+    - name: Display recent system logs
+      debug:
+        var: recent_logs.stdout_lines

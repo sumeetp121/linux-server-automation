@@ -1,0 +1,32 @@
+---
+- name: Manage Linux firewall
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Check firewalld service status
+      command: systemctl is-active firewalld
+      register: firewalld_status
+      changed_when: false
+      failed_when: false
+
+    - name: Display firewalld status
+      debug:
+        msg: "Firewalld status: {{ firewalld_status.stdout }}"
+
+    - name: Get firewall rules
+      command: firewall-cmd --list-all
+      register: firewall_rules
+      changed_when: false
+      when: firewalld_status.stdout == "active"
+
+    - name: Display firewall rules
+      debug:
+        var: firewall_rules.stdout_lines
+      when: firewalld_status.stdout == "active"
+
+    - name: Report firewalld is inactive
+      debug:
+        msg: "Firewalld is not active on this server"
+      when: firewalld_status.stdout != "active"

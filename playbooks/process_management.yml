@@ -1,0 +1,31 @@
+---
+- name: Manage Linux processes
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Get running processes
+      command: ps aux
+      register: process_list
+      changed_when: false
+
+    - name: Display running processes
+      debug:
+        var: process_list.stdout_lines
+
+    - name: Check nginx process
+      command: pgrep nginx
+      register: nginx_process
+      changed_when: false
+      failed_when: false
+
+    - name: Display nginx process status
+      debug:
+        msg: "Nginx process is running"
+      when: nginx_process.rc == 0
+
+    - name: Display nginx process status
+      debug:
+        msg: "Nginx process is not running"
+      when: nginx_process.rc != 0

@@ -1,0 +1,15 @@
+---
+- name: Monitor Linux disk usage
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Check root filesystem usage
+      shell: df -P / | awk 'NR==2 {print $5}' | tr -d '%'
+      register: root_disk_usage
+      changed_when: false
+
+    - name: Display root filesystem usage
+      debug:
+        msg: "Root filesystem usage is {{ root_disk_usage.stdout }}%"

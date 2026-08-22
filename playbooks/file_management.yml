@@ -1,0 +1,25 @@
+---
+- name: Manage Linux files and directories
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Create application directory
+      file:
+        path: /opt/app
+        state: directory
+        owner: devopsuser
+        group: devops
+        mode: '0755'
+
+    - name: Create application configuration file
+      copy:
+        content: |
+          # Application configuration
+          APP_NAME=Linux server automation
+          APP_ENV=production
+        dest: /opt/app/app.conf
+        owner: devopsuser
+        group: devops
+        mode: '0644'

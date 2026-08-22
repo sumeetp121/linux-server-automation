@@ -1,0 +1,16 @@
+---
+- name: Manage Linux mounts
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Ensure temporary filesystem is mounted
+      mount:
+        path: /mnt/data
+        src: tmpfs
+        fstype: tmpfs
+        opts: size=100m
+        state: mounted
+
+        
